@@ -77,6 +77,13 @@ export class UsersController {
     return this.usersService.login(body);
   }
 
+  @ApiBadRequestResponse()
+  @HttpCode(HttpStatus.OK)
+  @Post('/login/admin')
+  admin(@Body() body: RegistrUserDto) {
+    return this.usersService.loginAdmin(body);
+  }
+
   @Get('/admin/getall')
   @ApiHeader({
     name: 'autharization',

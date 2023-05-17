@@ -120,6 +120,33 @@ export class UsersService {
     };
   }
 
+  async loginAdmin(body: RegistrUserDto) {
+    const allReady: UsersEntity | undefined = await UsersEntity.findOne({
+      where: {
+        email: body.email,
+        password: body.password,
+      },
+    }).catch(() => undefined);
+
+    if (!allReady) {
+      throw new HttpException('User Not Fount', HttpStatus.NOT_FOUND);
+    }
+
+    if (
+      allReady?.email !== 'ahmadjonovakmal079@gmail.com' &&
+      allReady?.password !== '12345678'
+    ) {
+      throw new HttpException('Siz Admin emasiz', HttpStatus.BAD_REQUEST);
+    }
+
+    const token = jwt.sign({ id: allReady.id, email: allReady.email });
+
+    return {
+      token,
+      status: 201,
+    };
+  }
+
   async parol(body: ParolUserDto) {
     const randomSon = random();
     const findUser = await UsersEntity.findOne({
