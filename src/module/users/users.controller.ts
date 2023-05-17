@@ -125,8 +125,8 @@ export class UsersController {
   @ApiNotFoundResponse()
   @ApiNoContentResponse()
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete('/delete')
-  deleteUser(@Headers() headers: any) {
-    return this.usersService.deleteUser(headers);
+  @Delete('/delete/:id')
+  deleteUser(@Headers() headers: any, @Param('id') id: string) {
+    return this.usersService.deleteUser(headers, id);
   }
 }

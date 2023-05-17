@@ -236,16 +236,14 @@ export class UsersService {
     }
   }
 
-  async deleteUser(headers: any): Promise<void> {
-    const getUserId = await this.tokenmiddleware
-      .verifyAdmin(headers)
-      .catch((): any => {
-        throw new HttpException('bad request in token', HttpStatus.BAD_REQUEST);
-      });
+  async deleteUser(headers: any, id: string): Promise<void> {
+    await this.tokenmiddleware.verifyAdmin(headers).catch((): any => {
+      throw new HttpException('bad request in token', HttpStatus.BAD_REQUEST);
+    });
 
     await UsersEntity.createQueryBuilder()
       .delete()
-      .where({ id: getUserId })
+      .where({ id })
       .execute()
       .catch((): any => {
         throw new HttpException('bad request', HttpStatus.BAD_REQUEST);
