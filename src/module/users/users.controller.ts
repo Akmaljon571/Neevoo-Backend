@@ -119,7 +119,7 @@ export class UsersController {
 
   @ApiHeader({
     name: 'autharization',
-    description: 'User token',
+    description: 'Admin token',
     required: true,
   })
   @ApiNotFoundResponse()

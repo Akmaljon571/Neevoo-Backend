@@ -238,7 +238,7 @@ export class UsersService {
 
   async deleteUser(headers: any): Promise<void> {
     const getUserId = await this.tokenmiddleware
-      .verifyUser(headers)
+      .verifyAdmin(headers)
       .catch((): any => {
         throw new HttpException('bad request in token', HttpStatus.BAD_REQUEST);
       });
