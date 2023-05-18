@@ -34,6 +34,29 @@ export class VideosService {
       });
   }
 
+  async findAdmin(courseId: string) {
+    const findCourse: CoursesEntity = await CoursesEntity.findOneBy({
+      id: courseId,
+    }).catch(() => {
+      throw new HttpException('Course Not Found', HttpStatus.NOT_FOUND);
+    });
+
+    if (!findCourse) {
+      throw new HttpException('Course Not Found', HttpStatus.NOT_FOUND);
+    }
+
+    return await VideosEntity.find({
+      where: {
+        course: {
+          id: findCourse.id,
+        },
+      },
+      order: {
+        sequence: 'ASC',
+      },
+    });
+  }
+
   async findAll(courseId: string, userId) {
     const findCourse: CoursesEntity = await CoursesEntity.findOneBy({
       id: courseId,

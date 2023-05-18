@@ -118,6 +118,23 @@ export class VideosController {
     }
   }
 
+  @Get('/admin/:id')
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @ApiBadRequestResponse()
+  @ApiHeader({
+    name: 'autharization',
+    description: 'Admin token',
+    required: false,
+  })
+  @HttpCode(HttpStatus.OK)
+  async findAdmin(@Param('id') course: string, @Headers() headers: any) {
+    const userId: string = await this.VerifyToken.verifyAdmin(headers);
+    if (userId) {
+      return await this.videoService.findAdmin(course);
+    }
+  }
+
   @Get(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()

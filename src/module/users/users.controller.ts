@@ -3,7 +3,6 @@ import {
   Body,
   Patch,
   Post,
-  Delete,
   Headers,
   Controller,
   HttpCode,
@@ -16,7 +15,6 @@ import {
   ApiNotFoundResponse,
   ApiBadRequestResponse,
   ApiTags,
-  ApiNoContentResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { UsersService } from './users.service';
@@ -122,18 +120,5 @@ export class UsersController {
   @Patch('/update')
   update(@Headers() headers: any, @Body() body: UpdateUserDto) {
     return this.usersService.update(headers, body);
-  }
-
-  @ApiHeader({
-    name: 'autharization',
-    description: 'Admin token',
-    required: true,
-  })
-  @ApiNotFoundResponse()
-  @ApiNoContentResponse()
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete('/delete/:id')
-  deleteUser(@Headers() headers: any, @Param('id') id: string) {
-    return this.usersService.deleteUser(headers, id);
   }
 }
